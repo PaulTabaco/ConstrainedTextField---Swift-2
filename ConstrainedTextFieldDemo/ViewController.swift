@@ -1,25 +1,134 @@
 //
 //  ViewController.swift
-//  ConstrainedTextFieldDemo
-//
-//  Created by Joey deVilla on 4/18/15.
-//  Copyright (c) 2015 Global Nerdy. All rights reserved.
 //
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextFieldDelegate {
 
+  // MARK: Outlets
+  
+  @IBOutlet weak var vowelsOnlyTextField: UITextField!
+  @IBOutlet weak var noVowelsTextField: UITextField!
+  @IBOutlet weak var digitsOnlyTextField: UITextField!
+  @IBOutlet weak var numericOnlyTextField: UITextField!
+  @IBOutlet weak var positiveIntegersOnlyTextField: UITextField!
+  
+  
+  // MARK: View events and related methods
+  
   override func viewDidLoad() {
     super.viewDidLoad()
-    // Do any additional setup after loading the view, typically from a nib.
+    initializeTextFields()
   }
 
+  // Designate this class as the text fields' delegate
+  // and set their keyboards while we're at it.
+  func initializeTextFields() {
+    vowelsOnlyTextField.delegate = self
+    vowelsOnlyTextField.keyboardType = UIKeyboardType.ASCIICapable
+
+    noVowelsTextField.delegate = self
+    noVowelsTextField.keyboardType = UIKeyboardType.ASCIICapable
+    
+    digitsOnlyTextField.delegate = self
+    digitsOnlyTextField.keyboardType = UIKeyboardType.NumberPad
+    
+    numericOnlyTextField.delegate = self
+    numericOnlyTextField.keyboardType = UIKeyboardType.NumbersAndPunctuation
+    
+    positiveIntegersOnlyTextField.delegate = self
+    positiveIntegersOnlyTextField.keyboardType = UIKeyboardType.DecimalPad
+  }
+  
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
   }
+  
+  // Tap outside a text field to dismiss the keyboard
+  // ------------------------------------------------
+  // By changing the underlying class of the view from UIView to UIControl,
+  // the view can respond to events, including Touch Down, which is
+  // wired to this method.
+  @IBAction func userTappedBackground(sender: AnyObject) {
+    for view in self.view.subviews as! [UIView] {
+      if let textField = view as? UITextField {
+        textField.resignFirstResponder()
+      }
+    }
+  }
+  
+  
+  // MARK: UITextFieldDelegate events and related methods
+  
+  func textField(textField: UITextField,
+                 shouldChangeCharactersInRange range: NSRange,
+                 replacementString string: String)
+       -> Bool
+  {
+    // We ignore any change that doesn't add characters to the text field.
+    // These changes are things like character deletions and cuts, as well
+    // as moving the insertion point.
+    //
+    // We still return true to allow the change to take place.
+    if count(string) == 0 {
+      return true
+    }
+    
+    // Check to see if the text field's contents still fit the constraints
+    // with the new content added to it.
+    // If the contents still fit the constraints, allow the change
+    // by returning true; otherwise disallow the change by returning false.
+    let prospectiveText = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
+  
+    switch textField {
+    
+      // Allow only upper- and lower-case vowels in this field,
+      // and limit its contents to a maximum of 6 characters.
+      case vowelsOnlyTextField:
+        return prospectiveText.containsOnlyCharactersIn("aeiouAEIOU") &&
+               count(prospectiveText) <= 6
 
-
+      // Allow any characters EXCEPT upper- and lower-case vowels in this field,
+      // and limit its contents to a maximum of 8 characters.
+      case noVowelsTextField:
+        return prospectiveText.doesNotContainCharactersIn("aeiouAEIOU") &&
+               count(prospectiveText) <= 8
+        
+      // Allow only digits in this field, 
+      // and limit its contents to a maximum of 3 characters.
+      case digitsOnlyTextField:
+        return prospectiveText.containsOnlyCharactersIn("0123456789") &&
+               count(prospectiveText) <= 3
+        
+      // Allow only values that evaluate to proper numeric values in this field,
+      // and limit its contents to a maximum of 7 characters.
+      case numericOnlyTextField:
+        return prospectiveText.isNumeric() &&
+               count(prospectiveText) <= 7
+        
+      // In this field, allow only values that evalulate to proper numeric values and
+      // do not contain the "-" and "e" characters, nor the decimal separator character
+      // for the current locale. Limit its contents to a maximum of 5 characters.
+      case positiveIntegersOnlyTextField:
+        let decimalSeparator = NSLocale.currentLocale().objectForKey(NSLocaleDecimalSeparator) as! String
+        return prospectiveText.isNumeric() &&
+               prospectiveText.doesNotContainCharactersIn("-e" + decimalSeparator) &&
+               count(prospectiveText) <= 5
+        
+      // Do not put constraints on any other text field in this view
+      // that uses this class as its delegate.
+      default:
+        return true
+    }
+    
+  }
+  
+  // Dismiss the keyboard when the user taps the "Return" key or its equivalent
+  // while editing a text field.
+  func textFieldShouldReturn(textField: UITextField) -> Bool {
+    textField.resignFirstResponder()
+    return true;
+  }
+  
 }
-
