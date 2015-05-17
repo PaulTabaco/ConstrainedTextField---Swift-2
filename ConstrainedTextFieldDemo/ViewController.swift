@@ -51,11 +51,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
   // the view can respond to events, including Touch Down, which is
   // wired to this method.
   @IBAction func userTappedBackground(sender: AnyObject) {
-    for view in self.view.subviews as! [UIView] {
-      if let textField = view as? UITextField {
-        textField.resignFirstResponder()
-      }
-    }
+    view.endEditing(true)
   }
   
   
