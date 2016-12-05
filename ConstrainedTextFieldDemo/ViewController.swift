@@ -67,7 +67,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     // as moving the insertion point.
     //
     // We still return true to allow the change to take place.
-    if count(string) == 0 {
+    if string.characters.count == 0 {
       return true
     }
     
@@ -75,7 +75,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
     // with the new content added to it.
     // If the contents still fit the constraints, allow the change
     // by returning true; otherwise disallow the change by returning false.
-    let prospectiveText = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
+    let currentText = textField.text ?? ""
+    let prospectiveText = (currentText as NSString).stringByReplacingCharactersInRange(range, withString: string)
   
     switch textField {
     
@@ -83,25 +84,25 @@ class ViewController: UIViewController, UITextFieldDelegate {
       // and limit its contents to a maximum of 6 characters.
       case vowelsOnlyTextField:
         return prospectiveText.containsOnlyCharactersIn("aeiouAEIOU") &&
-               count(prospectiveText) <= 6
+               prospectiveText.characters.count <= 6
 
       // Allow any characters EXCEPT upper- and lower-case vowels in this field,
       // and limit its contents to a maximum of 8 characters.
       case noVowelsTextField:
         return prospectiveText.doesNotContainCharactersIn("aeiouAEIOU") &&
-               count(prospectiveText) <= 8
+               prospectiveText.characters.count <= 8
         
       // Allow only digits in this field, 
       // and limit its contents to a maximum of 3 characters.
       case digitsOnlyTextField:
         return prospectiveText.containsOnlyCharactersIn("0123456789") &&
-               count(prospectiveText) <= 3
+               prospectiveText.characters.count <= 3
         
       // Allow only values that evaluate to proper numeric values in this field,
       // and limit its contents to a maximum of 7 characters.
       case numericOnlyTextField:
         return prospectiveText.isNumeric() &&
-               count(prospectiveText) <= 7
+               prospectiveText.characters.count <= 7
         
       // In this field, allow only values that evalulate to proper numeric values and
       // do not contain the "-" and "e" characters, nor the decimal separator character
@@ -110,7 +111,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         let decimalSeparator = NSLocale.currentLocale().objectForKey(NSLocaleDecimalSeparator) as! String
         return prospectiveText.isNumeric() &&
                prospectiveText.doesNotContainCharactersIn("-e" + decimalSeparator) &&
-               count(prospectiveText) <= 5
+               prospectiveText.characters.count <= 5
         
       // Do not put constraints on any other text field in this view
       // that uses this class as its delegate.

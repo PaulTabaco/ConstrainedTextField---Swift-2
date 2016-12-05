@@ -159,14 +159,18 @@
 		D46284D31AE34E0D0078C3D4 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftMigration = 0700;
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = "Global Nerdy";
 				TargetAttributes = {
 					D46284DA1AE34E0D0078C3D4 = {
 						CreatedOnToolsVersion = 6.3;
+						LastSwiftMigration = 0810;
 					};
 					D46284EF1AE34E0D0078C3D4 = {
 						CreatedOnToolsVersion = 6.3;
+						LastSwiftMigration = 0810;
 						TestTargetID = D46284DA1AE34E0D0078C3D4;
 					};
 				};
@@ -349,6 +353,7 @@
 				INFOPLIST_FILE = ConstrainedTextFieldDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Debug;
 		};
@@ -359,6 +364,7 @@
 				INFOPLIST_FILE = ConstrainedTextFieldDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Release;
 		};
@@ -377,6 +383,7 @@
 				INFOPLIST_FILE = ConstrainedTextFieldDemoTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ConstrainedTextFieldDemo.app/ConstrainedTextFieldDemo";
 			};
 			name = Debug;
@@ -392,6 +399,7 @@
 				INFOPLIST_FILE = ConstrainedTextFieldDemoTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ConstrainedTextFieldDemo.app/ConstrainedTextFieldDemo";
 			};
 			name = Release;
